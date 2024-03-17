@@ -136,14 +136,11 @@ class App extends React.Component {
       if (!response.ok) {
         throw new Error("Failed to delete task");
       }
-      // Handle success response here, e.g., update UI
       console.log("Task deleted successfully");
       window.location.href="/"
-      // Optionally, you can trigger a UI update or fetch tasks again
     })
     .catch(error => {
       console.error("Error deleting task:", error);
-      // Handle error here, e.g., display error message to the user
     });
 }
   
