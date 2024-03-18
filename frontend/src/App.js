@@ -172,9 +172,9 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className='headline'>
-            ToDo Liste
+            learn react - ToDo Liste
           </h1>
-          <form onSubmit={this.handleSubmit}>
+          <form className='task-form' onSubmit={this.handleSubmit}>
             <input
               type="text"
               value={this.state.taskdescription}
