@@ -22,4 +22,17 @@ public class TestTask {
 
         assertEquals(id, task.getId());
     }
+
+    @Test
+    void testTaskCreation() {
+        int id = 1;
+        String description = "Task 1";
+
+        Task task = new Task();
+        task.setId(id);
+        task.setTaskdescription(description);
+
+        assertEquals(id, task.getId());
+        assertEquals(description, task.getTaskdescription());
+    }
 }
