@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Task;
 import com.example.demo.repository.TaskRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/todo")
 public class TaskController {
@@ -22,14 +24,15 @@ public class TaskController {
 	private TaskRepository taskRepository;
 
 	@CrossOrigin
-	@GetMapping("/")
+	@Operation
+	@GetMapping({"/v1","/v2"})
 	public List<Task> getTasks() {
-
 		return taskRepository.findAll();
 	}
 
 	@CrossOrigin
-	@PostMapping("/tasks")
+	@Operation
+	@PostMapping({"/v1/tasks","/v2/tasks"})
 	public ResponseEntity<String> addTask(@RequestBody String taskdescription) {
 		
 		Task task = new Task();
@@ -40,7 +43,8 @@ public class TaskController {
 	}
 
 	@CrossOrigin
-    @PostMapping("/delete")
+	@Operation
+    @PostMapping("/v1/delete")
     public ResponseEntity<String> delTask(@RequestBody String id) {
 		System.out.println(id);
         try {
@@ -56,4 +60,24 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Invalid task ID format");
         }
     }
+
+	@CrossOrigin
+	@Operation
+    @PostMapping("/v2/delete")
+    public ResponseEntity<String> delTaskV2(@RequestBody String id) {
+		System.out.println(id+" api v2");
+        try {
+            int taskId = Integer.parseInt(id);
+            Optional<Task> taskToDelete = taskRepository.findById(taskId);
+            if (taskToDelete.isPresent()) {
+                taskRepository.delete(taskToDelete.get());
+                return ResponseEntity.ok("Task '" + taskToDelete.get().getTaskdescription() + "' has been deleted");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid task ID format");
+        }
+    }
+
 }

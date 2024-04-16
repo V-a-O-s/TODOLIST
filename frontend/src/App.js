@@ -3,6 +3,7 @@ import './App.css';
 import logo from './logo.svg';
 
 const HOST_URL = "http://localhost:8080"
+const API_VERSION = "v1"
 
 /**
  * ==================================
@@ -79,7 +80,7 @@ class App extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     console.log("Sending task description to Spring-Server: "+this.state.taskdescription+" - 1");
-    fetch(HOST_URL+"/todo/tasks", {  // API endpoint (the complete URL!) to save a taskdescription
+    fetch(HOST_URL+"/todo/"+API_VERSION+"/tasks", {  // API endpoint (the complete URL!) to save a taskdescription
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -107,7 +108,7 @@ class App extends React.Component {
   ** It updates the component's state with the fetched todos from the API Endpoint '/'.
   */
   componentDidMount() {
-    fetch(HOST_URL+"/todo/")    // API endpoint (the complete URL!) to get a taskdescription-list
+    fetch(HOST_URL+"/todo/"+API_VERSION)    // API endpoint (the complete URL!) to get a taskdescription-list
       .then(response => response.json())
       .then(data => {
         console.log("Receiving task list data from Spring-Server: -2-");
@@ -122,7 +123,7 @@ class App extends React.Component {
   */
   handleClick = id => {
     console.log("Sending task id to delete on Spring-Server: " + id + " -3-");
-    fetch(HOST_URL + `/todo/delete`, {
+    fetch(HOST_URL + "/todo/"+API_VERSION+"/delete", {
       method: "POST",
       headers: {
         "Content-Type": "application/text"

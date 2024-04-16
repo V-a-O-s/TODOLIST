@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - m324
+  db:
+    image: wiss_todo_dbs:1.0
+    ports:
+      - "3306:3306"
+    networks:
+      - m324
+
+networks:
+  m324:
